@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import List from './components/List';
+import Search from './components/Search';
 
 class App extends Component {
 
   state = {
-    search: "",
     users: [],
     filteredUsers:[],
     loading: true
@@ -17,12 +18,6 @@ class App extends Component {
           this.setState({users: response.data.items, filteredUsers: response.data.items, loading: false})
       })
   }
-  
-  handleInput = (e) => {
-    this.setState(
-        { [e.target.name]: e.target.value }
-    );
-  };
 
   filterTable = (searchValue) => {
     const filteredUsers = this.state.users.filter(user => user.login.includes(searchValue));  
@@ -35,16 +30,9 @@ class App extends Component {
     console.log(this.state);
     return (
       <div className="App">
-        <div>
-          <input type="search" name="search" value={this.state.search} onChange={this.handleInput} />
-          <button onClick={() => this.filterTable(this.state.search)}>search</button>
-        </div>
+        <Search filterTable={this.filterTable}/>
         {!this.state.loading && this.state.filteredUsers.length > 0 &&
-        <ul>
-          {this.state.filteredUsers.map((user, index) => {
-            return <li key={index}><a href={user.html_url}>{user.login}</a></li>
-          })}
-        </ul>
+          <List filteredUsers={this.state.filteredUsers}/>
         }
       </div>
     );
