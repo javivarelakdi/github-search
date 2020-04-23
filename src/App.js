@@ -31,8 +31,9 @@ class App extends Component {
     return (
       <div className="App">
         <Search filterTable={this.filterTable}/>
-        {!this.state.loading && this.state.filteredUsers.length > 0 &&
-          <List filteredUsers={this.state.filteredUsers}/>
+        {!this.state.loading 
+          ? <List filteredUsers={this.state.filteredUsers}/>
+          : <div>loading...</div>
         }
       </div>
     );
